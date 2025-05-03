@@ -1,0 +1,20 @@
+<library path="umiusi_control_demo_hardware">
+    <class
+        name="umiusi_control_demo/hardware/ThrusterJoint"
+        type="umiusi_control_demo::hardware::ThrusterJoint"
+        base_class_type="hardware_interface::ActuatorInterface"
+    >
+        <description>
+            Joint actuation of UMIUSI's thruster
+        </description>
+    </class>
+    <class
+        name="umiusi_control_demo/hardware/ThrusterThrust"
+        type="umiusi_control_demo::hardware::ThrusterThrust"
+        base_class_type="hardware_interface::ActuatorInterface"
+    >
+        <description>
+            Thrust power of UMIUSI's thruster
+        </description>
+    </class>
+</library>

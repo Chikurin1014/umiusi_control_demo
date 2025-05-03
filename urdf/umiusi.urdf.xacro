@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="UMIUSI">
+    <xacro:arg name="thruster_thrust_max" default="1.0" />
+    <xacro:arg name="thruster_joint_min" default="-90" />
+    <xacro:arg name="thruster_joint_max" default="90" />
+
+    <link name="base_link"></link>
+    <link name="thruster1_link"></link>
+    <link name="thruster2_link"></link>
+    <link name="thruster3_link"></link>
+    <link name="thruster4_link"></link>
+
+    <joint name="thruster1/joint" type="revolute">
+        <parent link="base_link" />
+        <child link="thruster1_link" />
+        <limit effort="1.0" lower="$(arg thruster_joint_min)" upper="$(arg thruster_joint_max)"
+            velocity="1.0" />
+    </joint>
+    <joint name="thruster2/joint" type="revolute">
+        <parent link="base_link" />
+        <child link="thruster2_link" />
+        <limit effort="1.0" lower="$(arg thruster_joint_min)" upper="$(arg thruster_joint_max)"
+            velocity="1.0" />
+    </joint>
+    <joint name="thruster3/joint" type="revolute">
+        <parent link="base_link" />
+        <child link="thruster3_link" />
+        <limit effort="1.0" lower="$(arg thruster_joint_min)" upper="$(arg thruster_joint_max)"
+            velocity="1.0" />
+    </joint>
+    <joint name="thruster4/joint" type="revolute">
+        <parent link="base_link" />
+        <child link="thruster4_link" />
+        <limit effort="1.0" lower="$(arg thruster_joint_min)" upper="$(arg thruster_joint_max)"
+            velocity="1.0" />
+    </joint>
+
+    <xacro:macro name="thruster" params="id joint_min joint_max thrust_max">
+        <xacro:property name="thruster_name" value="thruster${id}" />
+        <xacro:property name="joint_name" value="${thruster_name}/joint" />
+        <xacro:property name="thrust_name" value="${thruster_name}/thrust" />
+        <xacro:property name="joint_plugin" value="umiusi_control_demo/hardware/ThrusterJoint" />
+        <xacro:property name="thrust_plugin" value="umiusi_control_demo/hardware/ThrusterThrust" />
+
+        <ros2_control name="${joint_name}" type="actuator">
+            <hardware>
+                <plugin>${joint_plugin}</plugin>
+                <group>${thruster_name}</group>
+            </hardware>
+            <joint name="${joint_name}">
+                <command_interface name="position">
+                    <param name="min">${joint_min}</param>
+                    <param name="max">${joint_max}</param>
+                </command_interface>
+                <state_interface name="position" />
+            </joint>
+        </ros2_control>
+        <ros2_control name="${thrust_name}" type="actuator">
+            <hardware>
+                <plugin>${thrust_plugin}</plugin>
+                <group>${thruster_name}</group>
+            </hardware>
+            <gpio name="${thrust_name}">
+                <command_interface name="effort">
+                    <param name="min">-${thrust_max}</param>
+                    <param name="max">${thrust_max}</param>
+                </command_interface>
+                <state_interface name="effort" />
+            </gpio>
+        </ros2_control>
+    </xacro:macro>
+
+    <xacro:thruster id="1" joint_min="$(arg thruster_joint_min)"
+        joint_max="$(arg thruster_joint_max)" thrust_max="$(arg thruster_thrust_max)" />
+
+    <xacro:thruster id="2" joint_min="$(arg thruster_joint_min)"
+        joint_max="$(arg thruster_joint_max)" thrust_max="$(arg thruster_thrust_max)" />
+
+    <xacro:thruster id="3" joint_min="$(arg thruster_joint_min)"
+        joint_max="$(arg thruster_joint_max)" thrust_max="$(arg thruster_thrust_max)" />
+
+    <xacro:thruster id="4" joint_min="$(arg thruster_joint_min)"
+        joint_max="$(arg thruster_joint_max)" thrust_max="$(arg thruster_thrust_max)" />
+</robot>

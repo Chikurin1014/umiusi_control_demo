@@ -1,0 +1,11 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100 # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+umiusi_controller:
+  ros__parameters:
+    type: umiusi_control_demo/UmiusiController
+    upate_rate: 50 # Hz

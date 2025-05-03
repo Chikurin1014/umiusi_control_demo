@@ -1,0 +1,11 @@
+<library path="umiusi_control_demo_controller">
+    <class
+        name="umiusi_control_demo/UmiusiController"
+        type="umiusi_control_demo::UmiusiController"
+        base_class_type="controller_interface::ChainableControllerInterface"
+    >
+        <description>
+            UMIUSI controller
+        </description>
+    </class>
+</library>
