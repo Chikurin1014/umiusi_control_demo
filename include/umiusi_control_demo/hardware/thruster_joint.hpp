@@ -45,14 +45,16 @@ public:
       -> hardware_interface::CallbackReturn override;
     /**
      * @brief `StateInterface`を生成する関数
-     * @return 生成した`StateInterface`の配列
+     * @return 生成した`StateInterface`のshared_ptrの配列
      */
-    auto export_state_interfaces() -> std::vector<hardware_interface::StateInterface> override;
+    auto on_export_state_interfaces()
+      -> std::vector<hardware_interface::StateInterface::ConstSharedPtr> override;
     /**
      * @brief `CommandInterface`を生成する関数
-     * @return 生成した`CommandInterface`の配列
+     * @return 生成した`CommandInterface`のshared_ptrの配列
      */
-    auto export_command_interfaces() -> std::vector<hardware_interface::CommandInterface> override;
+    auto on_export_command_interfaces()
+      -> std::vector<hardware_interface::CommandInterface::SharedPtr> override;
     /**
      * @brief 内部状態を更新する関数。通常は実際のハードウェアとの通信などが行われる。
      * @param time 現在時刻

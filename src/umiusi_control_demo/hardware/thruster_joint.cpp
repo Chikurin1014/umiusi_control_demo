@@ -14,25 +14,29 @@ auto ucdhw::ThrusterJoint::on_init(const hif::HardwareInfo & /*info*/) -> hif::C
     return hif::CallbackReturn::SUCCESS;
 }
 
-auto ucdhw::ThrusterJoint::export_state_interfaces() -> std::vector<hif::StateInterface> {
-    auto interfaces_to_export = std::vector<hif::StateInterface>{};
+auto ucdhw::ThrusterJoint::on_export_state_interfaces()
+  -> std::vector<hif::StateInterface::ConstSharedPtr> {
+    auto interfaces_to_export = std::vector<hif::StateInterface::ConstSharedPtr>{};
     auto joint = this->info_.joints.front();         // ※Jointが1つしかない前提
     auto interface = joint.state_interfaces.front(); // ※StateInterfaceが1つしかない前提
-    interfaces_to_export.emplace_back(
-      hif::StateInterface(joint.name,     // `thruster1_joint`など
-                          interface.name, // `position`など
-                          &this->state)); // Interfaceを介して公開する変数のアドレス
+    auto state_interface = std::make_shared<hif::StateInterface>(
+      joint.name,     // `thruster1_joint`など
+      interface.name, // `position`など
+      &this->state);  // Interfaceを介して公開する変数のアドレス
+    interfaces_to_export.push_back(state_interface);
     return interfaces_to_export;
 }
 
-auto ucdhw::ThrusterJoint::export_command_interfaces() -> std::vector<hif::CommandInterface> {
-    auto interfaces_to_export = std::vector<hif::CommandInterface>{};
+auto ucdhw::ThrusterJoint::on_export_command_interfaces()
+  -> std::vector<hif::CommandInterface::SharedPtr> {
+    auto interfaces_to_export = std::vector<hif::CommandInterface::SharedPtr>{};
     auto joint = this->info_.joints.front();           // ※Jointが1つしかない前提
     auto interface = joint.command_interfaces.front(); // ※CommandInterfaceが1つしかない前提
-    interfaces_to_export.emplace_back(
-      hif::CommandInterface(joint.name,       // `thruster1_joint`など
-                            interface.name,   // `position`など
-                            &this->command)); // Interfaceを介して公開する変数のアドレス
+    auto command_interface = std::make_shared<hif::CommandInterface>(
+      joint.name,      // `thruster1_joint`など
+      interface.name,  // `position`など
+      &this->command); // Interfaceを介して公開する変数のアドレス
+    interfaces_to_export.push_back(command_interface);
     return interfaces_to_export;
 }
 

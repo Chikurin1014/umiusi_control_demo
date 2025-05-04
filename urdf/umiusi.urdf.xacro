@@ -62,11 +62,11 @@
                 <group>${thruster_name}</group>
             </hardware>
             <gpio name="${thrust_name}">
-                <command_interface name="effort">
+                <command_interface name="power">
                     <param name="min">-${thrust_max}</param>
                     <param name="max">${thrust_max}</param>
                 </command_interface>
-                <state_interface name="effort" />
+                <state_interface name="power" />
             </gpio>
         </ros2_control>
     </xacro:macro>

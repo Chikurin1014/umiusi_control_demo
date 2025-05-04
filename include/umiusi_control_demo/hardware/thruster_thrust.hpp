@@ -33,8 +33,10 @@ public:
 
     auto on_init(const hardware_interface::HardwareInfo &info)
       -> hardware_interface::CallbackReturn override;
-    auto export_state_interfaces() -> std::vector<hardware_interface::StateInterface> override;
-    auto export_command_interfaces() -> std::vector<hardware_interface::CommandInterface> override;
+    auto on_export_state_interfaces()
+      -> std::vector<hardware_interface::StateInterface::ConstSharedPtr> override;
+    auto on_export_command_interfaces()
+      -> std::vector<hardware_interface::CommandInterface::SharedPtr> override;
     auto read(const rclcpp::Time &time, const rclcpp::Duration &period)
       -> hardware_interface::return_type override;
     auto write(const rclcpp::Time &time, const rclcpp::Duration &period)
